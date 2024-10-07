@@ -9,6 +9,6 @@ def read_txt_file(filename):
       break
     formatted_line = line.replace("\n", "").split(" ")
     num_arr = list(map(to_int, formatted_line))
-    
+
     content.append(num_arr)
   return content
