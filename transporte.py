@@ -44,17 +44,17 @@ def problema_transporte():
     # declara um número muito grande caso seja necessário usar no modelo
     infinity = solver.infinity()
 
-    # declara as variáveis do modelo: IntVar para inteira; NumVar para fracionárias; BoolVar para binárias.
+    # declara as variáveis de decisão do modelo: IntVar para inteira; NumVar para fracionárias; BoolVar para binárias.
     x = []
     for i in range(qtd_origens):
-        row = []
+        linha = []
         for j in range(qtd_destinos):
-            row.append(solver.IntVar(0, infinity, f'x{i+1}{j+1}'))
-        x.append(row)
+            linha.append(solver.IntVar(0, infinity, f'x{i+1}{j+1}'))
+        x.append(linha)
 
     # declaração de restrições de produção
     for i in range(qtd_origens):
-        constraint = solver.RowConstraint(0, qtd_producoes[i], f'linha_prod_{i+1}')
+        constraint = solver.RowConstraint(qtd_producoes[i], qtd_producoes[i], f'linha_prod_{i+1}')
         for j in range(qtd_destinos):
             constraint.SetCoefficient(x[i][j], 1)
 
@@ -65,11 +65,11 @@ def problema_transporte():
             constraint.SetCoefficient(x[i][j], 1)
 
     # declara a função objetivo (min)
-    objective = solver.Objective()
+    objectivo = solver.Objective()
     for i in range(qtd_origens):
         for j in range(qtd_destinos):
-            objective.SetCoefficient(x[i][j], custos[i][j])
-    objective.SetMinimization()
+            objectivo.SetCoefficient(x[i][j], custos[i][j])
+    objectivo.SetMinimization()
 
     # resolve o modelo
     status = solver.Solve()
