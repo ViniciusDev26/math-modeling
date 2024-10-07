@@ -40,7 +40,7 @@ def problema_transporte():
             x[(i, j)] = solver.IntVar(0, solver.infinity(), f'x[{i},{j}]')
 
     # Função objetivo: minimizar o custo total de transporte
-    solver.Minimize(solver.Sum(custos[i, j] * x[(i, j)] for i in range(num_origens) for j in range(num_destinos)))
+    solver.Minimize(solver.Sum(custos[i][j] * x[(i, j)] for i in range(num_origens) for j in range(num_destinos)))
 
     # Restrições de produção
     for i in range(num_origens):
